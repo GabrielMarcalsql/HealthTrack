@@ -1,0 +1,14 @@
+
+Hope you enjoy your new logo, here are the people that
+made your beautiful logo happen :)
+font name: NewsCycle-Regular
+font link: https://fonts.google.com/specimen/News+Cycle
+font author: Nathan Willis
+font author site: https://www.glyphography.com/fonts/
+
+
+icon designer: P Thanga Vignesh
+icon designer link: /amoghdesign
+        
+{"bg-gradient-0":"#410FF8","bg-gradient-1":"#410FF8","icon":"#ffffff","font":"#ffffff","slogan":"#ffffff"}
+      
