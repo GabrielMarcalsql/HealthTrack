@@ -27,15 +27,18 @@
               <hr class="my-4">
               <h5 class="card-title text-center">Login</h5>
               <hr class="my-4">
-              <form class="form-signin">
+              <span class="navbar-text text-danger">
+              	${erro}
+              </span>
+              <form class="form-signin" method="post" action="login">
                 <div class="form-label-group">
-                  <input type="email" id="inputEmail" class="form-control required autofocus" placeholder="Insira aqui seu e-mail">
+                  <input type="email" id="inputEmail" name="email" class="form-control required autofocus" placeholder="Insira aqui seu e-mail">
                   
                   <label for="inputEmail">E-mail</label>
                 </div>
 
                 <div class="form-label-group">
-                  <input type="password" id="inputPassword" class="form-control required" placeholder="Insira aqui sua senha">
+                  <input type="password" id="inputPassword" name="password" class="form-control required" placeholder="Insira aqui sua senha">
                   
                   <label for="inputPassword">Senha</label>
                 </div>
@@ -44,7 +47,7 @@
                   <input type="checkbox" class="custom-control-input" id="customCheck1">
                   <label class="custom-control-label" for="customCheck1">Mantenha-me conectado</label>
                 </div>
-                <a class="btn btn-lg btn-primary btn-block text-uppercase" href="menu.jsp">Login</a>
+                <input type="submit" value="Login" class="btn btn-lg btn-primary btn-block text-uppercase" />
                 <hr class="my-4">
                 <div class="justify-content-center">
                 <a class="btn btn-lg btn-link btn-block text-uppercase" type="submit" href="cadastro.jsp">Cadastre-se aqui</a>
