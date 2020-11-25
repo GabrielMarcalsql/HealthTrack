@@ -13,6 +13,7 @@ import br.com.HealthTrack.DAO.DAOFactory;
 import br.com.HealthTrack.DAO.PressaoDAO;
 import br.com.HealthTrack.DAO.UsuarioDAO;
 import br.com.HealthTrack.Entity.AnatomiaEntity;
+import br.com.HealthTrack.Entity.DietaEntity;
 import br.com.HealthTrack.Entity.PressaoEntity;
 import br.com.HealthTrack.Entity.UsuarioEntity;
 import br.com.HealthTrack.Interface.DAOInterface;
@@ -45,6 +46,7 @@ public class Pressao extends HttpServlet {
 		String acao = request.getParameter("acao");
 
 		switch (acao) {
+		default:
 		case "listar":
 			listar(request, response);
 			break;
@@ -54,11 +56,47 @@ public class Pressao extends HttpServlet {
 		case "excluir":
 			excluir(request, response);
 			break;
-		default:
+		case "editar":
+			editar(request, response);
 			break;
 		}
 	}
 
+	private void editar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+
+			int id = Integer.parseInt(request.getParameter("id"));
+
+			if (request.getParameter("update") == null) {
+				request.setAttribute("updateData", dao.findById(id));
+			} else {
+				double diastolica = Double.parseDouble(request.getParameter("pMin"));
+				double sistolica = Double.parseDouble(request.getParameter("pMax"));
+
+				if (diastolica > 0 && sistolica > 0) {
+					PressaoEntity entity = (PressaoEntity) dao.findById(id);
+
+					if (entity == null)
+						throw new Exception();
+
+					entity.setDiastolica(diastolica);
+					entity.setSistolica(sistolica);
+					
+					if (dao.update(id, entity)) {
+						request.setAttribute("msg", "Dados ataulizados com sucesso!");
+						request.setAttribute("updateData", null);
+					} else {
+						request.setAttribute("erro", "Erro ao tentar ataulizar dados!");
+					}
+				}
+			}
+		} catch (Exception ex) {
+			request.setAttribute("erro", "Preencha os dados corretamente!");
+		}
+
+		request.getRequestDispatcher("pressao?acao=listar").forward(request, response);
+	}
+	
 	private void excluir(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			int id = Integer.parseInt(request.getParameter("id"));

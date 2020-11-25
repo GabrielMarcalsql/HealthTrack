@@ -1,11 +1,8 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-secondary fixed-top">
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>		
+<nav class="navbar navbar-expand-md navbar-dark bg-secondary navbar-static-top">
 	<div class="container">
-		<c:if test="${not empty msg }">
-			<div class="alert alert-success">${msg}</div>
-		</c:if>
-		<c:if test="${not empty erro }">
-			<div class="alert alert-danger">${erro}</div>
-		</c:if>
 		<a class="navbar-brand" href="menu.jsp"> <img
 			src='./resources/imgs/vector/default-monochrome.svg' width='120'
 			height='35'>
@@ -31,3 +28,9 @@
 		</div>
 	</div>
 </nav>
+<c:if test="${not empty msg }">
+		<div class="alert alert-success" style="margin-bottom: 0px" role="alert">${msg}</div>
+	</c:if>
+	<c:if test="${not empty erro }">
+		<div class="alert alert-danger alert-custom" style="margin-bottom: 0px" role="alert">${erro}</div>
+	</c:if>

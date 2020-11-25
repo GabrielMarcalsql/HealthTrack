@@ -44,6 +44,7 @@ public class Anatomia extends HttpServlet {
 		String acao = request.getParameter("acao");
 
 		switch (acao) {
+		default:
 		case "listar":
 			listar(request, response);
 			break;
@@ -56,29 +57,25 @@ public class Anatomia extends HttpServlet {
 		case "editar":
 			editar(request, response);
 			break;
-		default:
-			break;
 		}
 	}
 
 	private void editar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			
+
 			int id = Integer.parseInt(request.getParameter("id"));
-			
-			if(request.getParameter("update") == null)
-			{
+
+			if (request.getParameter("update") == null) {
 				request.setAttribute("updateData", dao.findById(id));
-			}
-			else {
+			} else {
 				double peso = Double.parseDouble(request.getParameter("peso"));
 				double altura = Double.parseDouble(request.getParameter("altura"));
 				if (peso > 0 && altura > 0 && id > 0) {
 					AnatomiaEntity entity = (AnatomiaEntity) dao.findById(id);
-					
-					if(entity == null)
+
+					if (entity == null)
 						throw new Exception();
-					
+
 					entity.setAltura(altura);
 					entity.setPeso(peso);
 
@@ -95,10 +92,11 @@ public class Anatomia extends HttpServlet {
 		}
 
 		request.getRequestDispatcher("anatomia?acao=listar").forward(request, response);
-		
+
 	}
 
-	private void excluir(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void excluir(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
 			int id = Integer.parseInt(request.getParameter("id"));
 			EntityInterface entity = dao.findById(id);
@@ -109,7 +107,7 @@ public class Anatomia extends HttpServlet {
 				} else {
 					request.setAttribute("erro", "Erro ao tentar excluir dados!");
 				}
-			}else {
+			} else {
 				throw new Exception();
 			}
 		} catch (Exception ex) {
@@ -117,7 +115,7 @@ public class Anatomia extends HttpServlet {
 		}
 
 		request.getRequestDispatcher("anatomia?acao=listar").forward(request, response);
-		
+
 	}
 
 	private void cadastrar(HttpServletRequest request, HttpServletResponse response)

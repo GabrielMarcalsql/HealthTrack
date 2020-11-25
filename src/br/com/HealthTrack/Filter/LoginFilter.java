@@ -26,7 +26,7 @@ public class LoginFilter implements Filter {
 		HttpSession session = req.getSession();
 		String url = req.getRequestURI();
 
-		if (session.getAttribute("userId") == null && !url.endsWith("login") && !url.contains("resources")) {
+		if (session.getAttribute("userId") == null && !url.endsWith("login") && !url.contains("resources") && !url.endsWith("cadastro.jsp")) {
 			request.setAttribute("erro", "Entre com o usuário e senha!");
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		} else {

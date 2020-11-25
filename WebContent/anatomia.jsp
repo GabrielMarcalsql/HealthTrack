@@ -7,7 +7,6 @@
 <jsp:include page="head.jsp"/>
 <body>
 <jsp:include page="navbar.jsp"/>
-	
 	<header class="bg-info text-white">
     <div class="container text-center">
       <h1>Anatomia</h1>

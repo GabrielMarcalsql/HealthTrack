@@ -106,7 +106,7 @@ public class ExercicioDAO implements DAOInterface {
 		boolean result = false;
 		try {
 			conexao = ConnectionManager.getInstance().getConnection();
-			String sql = "UPDATE T_HT_EXEC SET T_HT_USUARIO_CD_USUARIO = ?, T_HT_AT_FISICA_CD_ATIVIDADE = ?, VL_TEMPO_EXEC = ?, DT_DATA = ? WHERE T_HT_EXEC = ?";
+			String sql = "UPDATE T_HT_EXEC SET T_HT_USUARIO_CD_USUARIO = ?, T_HT_AT_FISICA_CD_ATIVIDADE = ?, VL_TEMPO_EXEC = ?, DT_DATA = ? WHERE ID = ?";
 			stmt = conexao.prepareStatement(sql);
 			stmt.setInt(1, dado.getUsuario().getCodigo());
 			stmt.setInt(2, dado.getAtividade().getCodigo());

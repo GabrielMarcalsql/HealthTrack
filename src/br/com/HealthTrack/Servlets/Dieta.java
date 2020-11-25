@@ -13,6 +13,7 @@ import br.com.HealthTrack.DAO.DAOFactory;
 import br.com.HealthTrack.DAO.DietaDAO;
 import br.com.HealthTrack.DAO.RefeicaoDAO;
 import br.com.HealthTrack.DAO.UsuarioDAO;
+import br.com.HealthTrack.Entity.AnatomiaEntity;
 import br.com.HealthTrack.Entity.DietaEntity;
 import br.com.HealthTrack.Entity.RefeicaoEntity;
 import br.com.HealthTrack.Entity.UsuarioEntity;
@@ -47,6 +48,7 @@ public class Dieta extends HttpServlet {
 		String acao = request.getParameter("acao");
 
 		switch (acao) {
+		default:
 		case "listar":
 			listar(request, response);
 			break;
@@ -56,9 +58,44 @@ public class Dieta extends HttpServlet {
 		case "excluir":
 			excluir(request, response);
 			break;
-		default:
+		case "editar":
+			editar(request, response);
 			break;
 		}
+	}
+
+	private void editar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+
+			int id = Integer.parseInt(request.getParameter("id"));
+
+			if (request.getParameter("update") == null) {
+				request.setAttribute("updateData", dao.findById(id));
+			} else {
+				String refeicao = request.getParameter("refeicao");
+				double calorias = Double.parseDouble(request.getParameter("calorias"));
+				if (refeicao != null && refeicao != "" && calorias >= 0) {
+					DietaEntity entity = (DietaEntity) dao.findById(id);
+
+					if (entity == null)
+						throw new Exception();
+
+					entity.setRefeicao(getRefeicao(refeicao));
+					entity.setCalorias(calorias);
+
+					if (dao.update(id, entity)) {
+						request.setAttribute("msg", "Dados ataulizados com sucesso!");
+						request.setAttribute("updateData", null);
+					} else {
+						request.setAttribute("erro", "Erro ao tentar ataulizar dados!");
+					}
+				}
+			}
+		} catch (Exception ex) {
+			request.setAttribute("erro", "Preencha os dados corretamente!");
+		}
+
+		request.getRequestDispatcher("dieta?acao=listar").forward(request, response);
 	}
 
 	private void excluir(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

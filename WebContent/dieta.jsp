@@ -20,6 +20,7 @@
    		 Atualize sua dieta
   		</button>
 	</p>
+	<c:if test="${empty updateData}">
 	<div class="collapse" id="collapseExample">
   		<div class="card card-body text-white bg-info">
 		    <form class="form-inline justify-content-center" method="post" action="dieta?acao=cadastrar">
@@ -36,6 +37,26 @@
 			
   	    </div>
 	</div>
+	</c:if>
+	<c:if test="${not empty updateData}">
+		<div class="collapse show" id="collapseExample">
+		<div class="card card-body text-white bg-info">
+		    <form class="form-inline justify-content-center" method="post" action="dieta?acao=editar">
+		    	<input type="hidden" class="form-control" name="id" value="${updateData.id}">
+		    	<input type="hidden" class="form-control" name="update" value="true">
+			  <div class="form-group">
+			    <label for="text">Refeição: </label>
+			    <input type="text" class="form-control" id="text" name="refeicao" value="${updateData.refeicao.descricao}">
+			  </div>
+			  <div class="form-group">
+			    <label for="number">Calorias (kCal): </label>
+			    <input type="number" class="form-control" id="number" name="calorias" value="${updateData.calorias}">
+			  </div>
+			  <input type="submit" class="btn btn-default" value="Atualizar">
+			</form>
+  	    </div>
+  	    </div>
+	</c:if>
     
 	</div>
   </header>

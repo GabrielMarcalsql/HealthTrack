@@ -20,6 +20,7 @@
    		 Atualize seus exercícios
   		</button>
 	</p>
+	<c:if test="${empty updateData}">
 	<div class="collapse" id="collapseExample">
   		<div class="card card-body text-white bg-info">
 		    <form class="form-inline justify-content-center" method="post" action="exercicios?acao=cadastrar">
@@ -36,7 +37,26 @@
 			
   	    </div>
 	</div>
-    
+    </c:if>
+    <c:if test="${not empty updateData}">
+		<div class="collapse show" id="collapseExample">
+		<div class="card card-body text-white bg-info">
+		    <form class="form-inline justify-content-center" method="post" action="exercicios?acao=editar">
+		    	<input type="hidden" class="form-control" name="id" value="${updateData.id}">
+		    	<input type="hidden" class="form-control" name="update" value="true">
+			  <div class="form-group">
+			    <label for="text">Atividade: </label>
+			    <input type="text" name="atividade" class="form-control" id="text" value="${updateData.atividade.descricao}">
+			  </div>
+			  <div class="form-group">
+			    <label for="number">Duração(min): </label>
+			    <input type="number" name="duracao" class="form-control" id="number" value="${updateData.tempoExecutado}">
+			  </div>
+			  <input type="submit" class="btn btn-default" value="Atualizar">
+			</form>
+  	    </div>
+  	    </div>
+	</c:if>
 	</div>
   </header>
   

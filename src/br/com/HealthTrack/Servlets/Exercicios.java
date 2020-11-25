@@ -14,6 +14,7 @@ import br.com.HealthTrack.DAO.DAOFactory;
 import br.com.HealthTrack.DAO.ExercicioDAO;
 import br.com.HealthTrack.DAO.UsuarioDAO;
 import br.com.HealthTrack.Entity.AtividadeFisicaEntity;
+import br.com.HealthTrack.Entity.DietaEntity;
 import br.com.HealthTrack.Entity.ExercicioEntity;
 import br.com.HealthTrack.Entity.UsuarioEntity;
 import br.com.HealthTrack.Interface.DAOInterface;
@@ -47,6 +48,7 @@ public class Exercicios extends HttpServlet {
 		String acao = request.getParameter("acao");
 
 		switch (acao) {
+		default:
 		case "listar":
 			listar(request, response);
 			break;
@@ -56,9 +58,45 @@ public class Exercicios extends HttpServlet {
 		case "excluir":
 			excluir(request, response);
 			break;
-		default:
+		case "editar":
+			editar(request, response);
 			break;
 		}
+	}
+	
+	private void editar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+
+			int id = Integer.parseInt(request.getParameter("id"));
+
+			if (request.getParameter("update") == null) {
+				request.setAttribute("updateData", dao.findById(id));
+			} else {
+				String atividade = request.getParameter("atividade");
+				int duracao = Integer.parseInt(request.getParameter("duracao"));
+				
+				if (atividade != null && atividade != "" && duracao >= 0) {
+					ExercicioEntity entity = (ExercicioEntity) dao.findById(id);
+
+					if (entity == null)
+						throw new Exception();
+					
+					entity.setAtividade(getAtividadeFisica(atividade));
+					entity.setTempoExecutado(duracao);
+
+					if (dao.update(id, entity)) {
+						request.setAttribute("msg", "Dados ataulizados com sucesso!");
+						request.setAttribute("updateData", null);
+					} else {
+						request.setAttribute("erro", "Erro ao tentar ataulizar dados!");
+					}
+				}
+			}
+		} catch (Exception ex) {
+			request.setAttribute("erro", "Preencha os dados corretamente!");
+		}
+
+		request.getRequestDispatcher("exercicios?acao=listar").forward(request, response);
 	}
 
 	private void excluir(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -86,13 +124,13 @@ public class Exercicios extends HttpServlet {
 	private void cadastrar(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			String ativiadade = request.getParameter("atividade");
+			String atividade = request.getParameter("atividade");
 			int duracao = Integer.parseInt(request.getParameter("duracao"));
 
-			if (ativiadade != null && ativiadade != "" && duracao >= 0) {
+			if (atividade != null && atividade != "" && duracao >= 0) {
 				int usuarioId = (int) request.getSession().getAttribute("userId");
 				UsuarioEntity usuarioLogado = (UsuarioEntity) daoUsuario.findById(usuarioId);
-				AtividadeFisicaEntity obAtividade = getAtividadeFisica(ativiadade);
+				AtividadeFisicaEntity obAtividade = getAtividadeFisica(atividade);
 				
 				EntityInterface entity = new ExercicioEntity(usuarioLogado, obAtividade, duracao, Calendar.getInstance());
 
